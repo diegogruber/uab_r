@@ -1,9 +1,3 @@
----
-title: "Introduction to Data Analysis with R"
-author: "Diego Gruber / Kernel Analytics"
-date: "April 2016"
-output: pdf_document
----
 
 Description
 -----------
