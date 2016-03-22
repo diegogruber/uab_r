@@ -1,0 +1,138 @@
+---
+title: "Intro to Data Analysis with R"
+author: "Diego Gruber"
+date: "April 4-6, 2016"
+output: 
+  ioslides_presentation: 
+    fig_height: 4
+    fig_width: 4
+    incremental: no
+    logo: K blava.png
+    widescreen: yes
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+library(data.table)
+library(ggplot2)
+library(magrittr)
+library(tidyr)
+opts_chunk$set(echo = FALSE, fig.align = 'center')
+```
+
+## Objectives
+
+This **is not** intended as a course on statistical methods or econometric techniques! 
+
+Instead, you will learn how to 
+
+- Explore, groom, visualize, and analyze data 
+- Make your code reproducible, reusable, and shareable 
+- Improve the efficiency and enjoyability of your workflow
+
+## Outline
+
+1. An overview of the R ecosystem
+2. Data visualization
+3. Data wrangling
+4. Data Analysis
+
+The R Ecosystem
+===============
+
+## R
+
+- A programming language and software environment
+- Created by Ross Ihaka and Robert Gentleman
+    - 1993: Research project in Auckland, NZ  
+    - 1995: R Released as **open-source software**
+    - 1997: R core group formed...
+    - 2000: R 1.0.0 released
+- Designed for statistical analysis and graphics
+    - As opposed to general purpose language, such as Python
+- Published under GNU license -> **Open source!**
+ 
+## R - Extensibility
+
+- Capabilities of R are extended through **user-created packages**
+- Packages are mainly hosted on **[CRAN](https://cran.r-project.org)**
+    - quality and licensing requirements
+    - core group volunteers and automated testing
+- Other popular repositories:
+    - Bioconductor (for bioinformatics)
+    - Github (mostly for development)
+    
+## R - Extensibility
+
+<div><img src = "cran_packages.png" width = "800"></div>
+
+[Read more](http://blog.revolutionanalytics.com/2016/03/16-years-of-r-history.html)
+    
+## R - Popularity
+
+<div><img src = "tiobe.png" width = "800"></div>
+
+[Read more](http://blog.revolutionanalytics.com/popularity/)
+
+## RStudio
+
+- Free and open source IDE for R
+- Desktop and Server
+- Panes: Code Editor, Console, Debugger, Plots, Viewer, Packages...
+- Cheatsheets!
+- Options
+- Projects
+
+## RMarkdown
+
+- **Markdown** is a text-to-HTML conversion tool developed by John Gruber (no relation!)
+- It allows you to write using an easy-to-read, easy-to-write plain text format, then convert to HTML
+- RMarkdown allows you to intersperse Markdown with *R-chunks*
+- Also supported: **LaTeX!**
+- Other output formats: PDF, Word, Github, RTF, ODT, custom formats
+- **Reproducible Research:** full computational environment required to reproduce the results in a research paper (data, code, etc.)
+
+## Version Control
+
+![Many many versions](paper_versions.png)
+
+## Version Control
+
+- Keep track of changes in your project
+- Backup your files and restore previous versions
+- Maintain multiple versions, eventually merge them
+- Collaborate with people
+- Share your work with the world
+
+## Git
+
+- Git is a decentralized version control system
+- Created by Linus Torvalds
+- Current standard in software development
+- Command line or GUI
+    - RStudio
+    - Sourcetree
+- Remote repository services
+    - Github
+    - Bitbucket
+  
+## Git Repository Structure
+
+![Git Repository Structure](git_repository.png)
+
+## Basic Git commands
+
+For this class...
+
+- status
+- add
+- commit
+- push
+- pull
+
+Learn more at [Codecademy](https://www.codecademy.com/learn/learn-git)
+
+
+
+
+
