@@ -2,7 +2,7 @@
 Description
 -----------
 
-This course provides a brief 10-hour introduction to the R programming language and the RStudio IDE. This is not intended as a course on statistical methods or econometric techniques! Instead, you will learn how to explore, groom, visualize, and analyze data while making your code reproducible, reusable, and shareable. It's about making your workflow more efficient and enjoyable.
+This course provides a brief 10-hour introduction to the R programming language and the RStudio IDE. This is not intended as a course on statistical methods or econometric techniques! Instead, you will learn how to explore, groom, visualize, and analyze data while making your code reproducible, reusable, and share-able. It's about making your workflow more efficient and enjoyable.
 
 The aim of the course is to prepare you to keep exploring R on your own by pointing you to the best resources available.
 
@@ -11,10 +11,10 @@ Software
 
 Before the first class you should have the following software running on your system:
 
-+ [R](https://www.r-project.org)
++ A recent version of [R](https://www.r-project.org)
 + The desktop version of [RStudio](https://www.rstudio.com/products/RStudio/)
 + [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
-+ Optionally, a Git cient. RStudio has an integrated one, but it's very basic. I recommend [Sourcetree](https://www.sourcetreeapp.com).
++ Optionally, a Git client. RStudio has an integrated one, but it's very basic. I recommend [Sourcetree](https://www.sourcetreeapp.com).
 
 Also, you should sign up for a [Github](https://github.com) account.
 
