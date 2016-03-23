@@ -6,8 +6,7 @@ output:
   ioslides_presentation: 
     fig_height: 4
     fig_width: 4
-    incremental: no
-    logo: K blava.png
+    logo: img/Kblava.png
     widescreen: yes
 ---
 
@@ -64,45 +63,53 @@ The R Ecosystem
     
 ## R - Extensibility
 
-<div><img src = "cran_packages.png" width = "800"></div>
-
-[Read more](http://blog.revolutionanalytics.com/2016/03/16-years-of-r-history.html)
+<div style="text-align:center">
+<img src = "img/cran_packages.png" width = "800"> <br>
+<a href = "http://blog.revolutionanalytics.com/2016/03/16-years-of-r-history.html"> Find out more </a>
+</div>
     
 ## R - Popularity
 
-<div><img src = "tiobe.png" width = "800"></div>
-
-[Read more](http://blog.revolutionanalytics.com/popularity/)
+<div style="text-align:center">
+<img src = "img/tiobe.png" width = "650"> <br>
+<a href = "http://blog.revolutionanalytics.com/popularity/"> Find out more </a>
+</div>
 
 ## RStudio
 
-- Free and open source IDE for R
+- Free and open source [IDE for R](www.rstudio.com)
 - Desktop and Server
-- Panes: Code Editor, Console, Debugger, Plots, Viewer, Packages...
-- Cheatsheets!
-- Options
-- Projects
+- **Panes** 
+    - Code Editor, Console, Debugger, Plots, Viewer, Packages...
+- **Cheatsheets!**
+- **Options**
+    - Tip: turn off automatic save / load of your last session.
+- **Projects**
+    - Great way to organize your work
+- **Packages**
+    - Become an R developer
 
 ## RMarkdown
 
 - **Markdown** is a text-to-HTML conversion tool developed by John Gruber (no relation!)
 - It allows you to write using an easy-to-read, easy-to-write plain text format, then convert to HTML
-- RMarkdown allows you to intersperse Markdown with *R-chunks*
+- Quick reference in RStudio
+- [RMarkdown](http://rmarkdown.rstudio.com) allows you to intersperse Markdown with *R-chunks*
 - Also supported: **LaTeX!**
 - Other output formats: PDF, Word, Github, RTF, ODT, custom formats
 - **Reproducible Research:** full computational environment required to reproduce the results in a research paper (data, code, etc.)
 
 ## Version Control
 
-![Many many versions](paper_versions.png)
+![Many many versions](img/paper_versions.png)
 
 ## Version Control
 
-- Keep track of changes in your project
-- Backup your files and restore previous versions
-- Maintain multiple versions, eventually merge them
-- Collaborate with people
-- Share your work with the world
+- **Keep track of changes** in your project
+- **Backup** your files and restore previous versions
+- Maintain **multiple versions**, eventually merge them
+- **Collaborate** with people
+- **Share** your work with the world
 
 ## Git
 
@@ -118,7 +125,7 @@ The R Ecosystem
   
 ## Git Repository Structure
 
-![Git Repository Structure](git_repository.png)
+![Git Repository Structure](img/git_repository.png)
 
 ## Basic Git commands
 
@@ -131,8 +138,6 @@ For this class...
 - pull
 
 Learn more at [Codecademy](https://www.codecademy.com/learn/learn-git)
-
-
 
 
 
