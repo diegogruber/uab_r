@@ -11,11 +11,12 @@ Software
 
 Before the first class you should have the following software running on your system:
 
-+ The latest version of [R](https://www.r-project.org)
-+ The latest desktop version of [RStudio](https://www.rstudio.com/products/RStudio/)
-+ RStudio has an integrated Git client, but it's very basic. I recommend using [Sourcetree](https://www.sourcetreeapp.com).
++ [R](https://www.r-project.org)
++ The desktop version of [RStudio](https://www.rstudio.com/products/RStudio/)
++ [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
++ Optionally, a Git cient. RStudio has an integrated one, but it's very basic. I recommend [Sourcetree](https://www.sourcetreeapp.com).
 
-Also, you should sign up for a Github account.
+Also, you should sign up for a [Github](https://github.com) account.
 
 Topics
 ------
@@ -34,7 +35,7 @@ Topics
 + **Data 'janitoring'.** Subsetting, merging, transforming data and more (this is what you'll be doing 80% of the time).
 + **Importing data.** Working with your own problems.
 + **R types and classes.** You'll have to learn about this eventually.
-+ **Control structures**. Ifs, fors, whiles and the `apply` functions. Start programming in R.
++ **Control structures**. Ifs, fors, whiles and the `apply` functions. The building blocks of programming in R.
 + Writing and debugging **your own functions**. Forget about copy-pasting your own code.
 + Basic **statistics.** 
 + **Group-by operations.** Split, apply, combine.
