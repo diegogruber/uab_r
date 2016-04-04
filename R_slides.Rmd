@@ -544,3 +544,110 @@ myplot4
     - Add annotations that clarify and simplify
     - Make it look nice to the eye
 
+A nicer example
+===============
+
+## Data
+
+```{r, results='asis'}
+library(gapminder)
+gapminder %>% 
+  head(5) %>% 
+  kable(digits = 2)
+```
+
+## Base plot
+
+```{r echo=TRUE}
+gmplot <- ggplot(
+  data = subset(gapminder, year == 2007), 
+  aes(
+    x = gdpPercap, 
+    y = lifeExp, 
+    color = continent))  +
+    geom_point(aes(size = pop, text = country))
+```
+
+## Base plot
+
+```{r, fig.width=8}
+gmplot
+```
+
+## Modifying scales and appearance
+
+```{r echo=TRUE}
+library(RColorBrewer)
+gmplot <- gmplot +
+  # logarithmic scale
+  scale_x_log10(
+    breaks = c(1000, 5000, 10000, 25000, 50000),
+    labels = scales::dollar) +
+  # nicer colors 
+  scale_color_brewer(palette = "Set1", name = "Continent") +
+  # Annotations
+  scale_size_area(name = "Population") +
+  xlab("GDP per capita") + 
+  ylab("Life Expectancy") +
+  # theme 
+  theme_bw()
+```
+
+## Modifying scales and appearance
+
+```{r, fig.width=8}
+gmplot
+```
+
+## Adding a layer
+
+```{r echo=TRUE}
+# In October 2015, the World Bank updated the international poverty line to
+# US$1.90 a day
+poverty_line <- 365 * 1.90
+gmplot <- gmplot + 
+  geom_vline(
+    aes(xintercept = poverty_line),
+    color = "red",
+    linetype = 2)
+```
+
+## Adding a layer
+
+```{r, fig.width=8}
+gmplot
+```
+
+## Text labels
+
+```{r echo=TRUE, fig.width=8}
+gmplot + geom_text(aes(label = country))
+```
+
+## Text labels - ggrepel
+
+```{r echo=TRUE, fig.width=8}
+library(ggrepel)
+gmplot +  geom_label_repel(aes(label = country))
+```
+
+## Text labels - ggrepel
+
+```{r echo=TRUE, fig.width=8}
+gmplot +  geom_label_repel(
+    data = subset(gapminder, year == 2007 & pop > 100e6), 
+    aes(label = country))
+```
+
+## Interactivity
+
+```{r echo=TRUE, message=FALSE, warning=FALSE, echo=TRUE}
+library(plotly)
+gmplotly <- ggplotly(gmplot, tooltip = c("text", "size", "x", "y"))
+```
+
+## Interactivity
+
+```{r, fig.width=8}
+gmplotly
+```
