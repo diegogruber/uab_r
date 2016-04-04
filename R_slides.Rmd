@@ -197,7 +197,8 @@ anscombe_tidy[, .(
   corr = cor(x, y),
   reg_coef_a = lm(y ~ x)$coefficients[1],
   reg_coef_b = lm(y ~ x)$coefficients[2]
-), by = set] %>% kable(digits = 2, align = "c")
+), by = set] %>% 
+  kable(digits = 2, align = "c")
 ```
 
 ## Anscombe's Quartett
@@ -299,7 +300,7 @@ kable(mydata[, .(x, y, Shape)], align = "c")
 - Transform variable values to units that can be represented on the screen or paper
 - Each aesthetic property requires a scale (e.g. an axis or a legend).
 - Example: transform `x` with a linear scale:
-$$\text{floor}\left(\frac{x - \min(x)}{\text{range}(x)}\times\text{Screen width}\right)$$
+$$\text{floor}\left(\frac{x - \min(x)}{\text{range}(x)}\times\text{[screen width]}\right)$$
 - Shape mapping:
     - Group "a": circle
     - Group "b": square
@@ -321,7 +322,7 @@ kable(mydata[, .(` ` = D, x, y, Shape)], align = "c")
 
 ## Statistical Transformation
 
-- Rescaled data can be transformed by a statistic function:
+- Rescaled data can be transformed by a statistic function (a *stat*):
     - Mean
     - Median
     - Regression
@@ -390,8 +391,7 @@ basic_plot + layer(
   geom = "smooth", 
   stat = "smooth", 
   position = "identity",
-  params = list(method = lm, se = F, color = "blue", na.rm = TRUE)
-  )
+  params = list(method = lm, se = F, color = "blue", na.rm = TRUE))
 ```
 
 Statistical transformation: linear regression
