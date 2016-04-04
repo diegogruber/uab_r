@@ -79,25 +79,22 @@ The R Ecosystem
 
 - Free and open source [IDE for R](www.rstudio.com)
 - Desktop and Server
-- **Panes** 
-    - Code Editor, Console, Debugger, Plots, Viewer, Packages...
+- **Panes**: Code Editor, Console, Debugger, Plots, Viewer, Packages...
 - **Cheatsheets!**
-- **Options**
-    - Tip: turn off automatic save / load of your last session.
-- **Projects**
-    - Great way to organize your work
-- **Packages**
-    - Become an R developer
+- **Options** (Tip: turn off automatic save / load of your last session)
+- **Projects**: Great way to organize your work
+- **Packages**: Become an R developer
+- You can now create [extensions for RStudio](https://github.com/daattali/rstudio-addins#readme)
 
 ## RMarkdown
 
 - **Markdown** is a text-to-HTML conversion tool developed by John Gruber (no relation!)
-- It allows you to write using an easy-to-read, easy-to-write plain text format, then convert to HTML
-- Quick reference in RStudio
-- [RMarkdown](http://rmarkdown.rstudio.com) allows you to intersperse Markdown with *R-chunks*
+- Write in an easy-to-read, easy-to-write plain text format, then convert to HTML
+- **RMarkdown**: Combine Markdown with *R-chunks*
+- Quick reference in RStudio + Great [documentation](http://rmarkdown.rstudio.com)
 - Also supported: **LaTeX!**
-- Other output formats: PDF, Word, Github, RTF, ODT, custom formats
-- **Reproducible Research:** full computational environment required to reproduce the results in a research paper (data, code, etc.)
+- Other output formats: PDF, Word, Github, etc...
+- **Reproducible Research:** full computational environment required to reproduce results in a research paper (data, code...)
 
 ## Version Control
 
@@ -131,6 +128,7 @@ The R Ecosystem
 
 For this class...
 
+- clone
 - status
 - add
 - commit
@@ -139,6 +137,22 @@ For this class...
 
 Learn more at [Codecademy](https://www.codecademy.com/learn/learn-git)
 
+## Clone these slides
+
+To download this slides you can use the command line:
+
+```
+git clone https://github.com/diegogruber/uab_r
+```
+
+or from RStudio:
+
+1. File / New Project / Version Control / Git
+2. Enter the [repository URL](https://github.com/diegogruber/uab_r), directory, and destination
+
+To generate the HTML file, open the .Rmd file in RStudio and press the *Knit HTML* button.
+
+To update the repository when there is a new commit type `git pull` in the command line or press the *pull* button in RStudio.
 
 Data Visualization
 =====================
