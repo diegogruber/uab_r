@@ -6,7 +6,7 @@ output:
   ioslides_presentation: 
     fig_height: 4
     fig_width: 4
-    logo: img/Kblava.png
+    logo: img/idea_logo.png
     widescreen: yes
 ---
 
