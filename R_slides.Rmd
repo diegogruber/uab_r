@@ -397,5 +397,150 @@ basic_plot + layer(
 Statistical transformation: linear regression
 
 
+Implementation in ggplot2
+=============================
 
+## Introduction
+
+- A good implementation of the grammar of graphics should meet certain criteria:
+    - Syntax related to elements of the grammar
+    - Avoid redundant code
+    - Good defaults for each element
+    - Ample selection of geoms, stats, scales, etc.
+- Success has led to clones in other programming languages (ej. ggplot en Python)
+- Reference: [ggplot2 documentation](http://docs.ggplot2.org/current/)
+
+## ggplot2 - Quick start
+
+- Every ggplot2 graph begins with the function `ggplot()`
+- Add layers using the `+` operator and the `layer()` function
+- For each layer specify
+    - data (`data = ...`)
+    - geometry (`geom = ...`) and its position (`position = ...`)
+    - a mapping from variables to aesthetic elements `mapping = aes(...)`
+    - a statistial transformation (`stat = ...`)
+    - other options through `params = list(...)`
+- ggplot2 automatically selects a scale based on variable type and range
+- Let's see how we produced the previous plot...
+
+## ggplot2 - Quick start
+
+```{r echo=TRUE}
+myplot1 <- ggplot() + 
+  layer(
+    data = mydata, 
+    geom = "point", position = "identity",
+    mapping = aes(x = A, y = C, shape = D), 
+    stat = "identity",
+    params = list(na.rm = TRUE, size = 8)) +
+  layer(
+    data = mydata, 
+    geom = "smooth", position = "identity",
+    mapping = aes(x = A, y = C), 
+    stat = "smooth",
+    params = list(na.rm = TRUE, method = lm, se = F, color = "blue"))
+```
+
+## ggplot2 - Quick start
+
+```{r fig.width=6}
+myplot1
+```
+
+## ggplot2 - Plot defaults
+
+Our previous specification has many redundancies. The `ggplot` function may be used to specify defaults:
+
+```{r echo=TRUE}
+myplot2 <- ggplot(data = mydata, mapping = aes(x = A, y = C)) + 
+  layer(
+    geom = "point", position = "identity",
+    mapping = aes(shape = D), 
+    stat = "identity",
+    params = list(na.rm = TRUE, size = 8)) +
+  layer(
+    geom = "smooth", position = "identity",
+    stat = "smooth",
+    params = list(na.rm = TRUE, method = lm, se = F, color = "blue"))
+```
+
+## ggplot2 - Plot defaults
+
+```{r fig.width=6}
+myplot2
+```
+
+## ggplot2 - Shortcuts
+
+- Funciones `geom...` y `stat...` para indicar directamente la geometría  o la transformación estadística deseada.
+- Cada función tiene una serie de defaults cuidadosamente seleccionados.
+- Por ejemplo, cada `geom` tiene una transformación estadística asociada.
+- A la inversa, cada `stat` tiene una geometría por defecto.
+- Cada función tiene sus parámetros.
+
+```{r echo=TRUE}
+myplot3 <- ggplot(data = mydata, mapping = aes(x = A, y = C)) + 
+  geom_point(mapping = aes(shape = D), size = 8) +
+  stat_smooth(method = lm, se = F)
+```
+
+## ggplot2 - Shortcuts
+
+```{r fig.width=6}
+myplot3
+```
+
+## ggplot2 - Incremental graphics
+
+Add complexity without repeating code:
+
+```{r echo=TRUE, fig.height = 3, fig.width=8}
+myplot3 + facet_grid(~D)
+```
+
+## ggplot2 - Modifying scale and appearance
+
+- Modify scales with the `scale...` functions
+- Modify appearance with the `theme...` functions
+- Other functions help adding titles and other elements:
+
+```{r echo=TRUE}
+myplot4 <- myplot3 + 
+  scale_shape_manual(values = c(16, 15)) + 
+  scale_x_continuous(breaks = seq(0, 10, 2)) +
+  scale_y_continuous(limits = c(0, 100)) +
+  ggtitle("Title") + 
+  theme_classic() + theme(legend.position = "none")
+```
+
+## ggplot2 - Modifying scale and appearance
+
+```{r, message=FALSE, warning=FALSE}
+myplot4
+```
+
+## Other packages
+
+- Modify units (percentages or currency) with **scales**
+- Create arbitrary array of plots with **gridExtra**
+- More themes (Economist, WSJ, 538, Excel97...) with **ggthemes**
+- Improve coloring with the **viridis** and **RColorBrewer** palettes
+- Turn ggplots into interactive html graphics with **plotly**
+- Etc. Check out 
+
+## ggplot2 add-ins
+
+- Version 2 introduced an API to create your own geoms
+- Check out the [ggplot2 extensions repository](http://www.ggplot2-exts.org/gganimate.html)
+
+## From grammar to 'poetry'
+
+- The grammar of graphics lets you understand the elements that make up a data visualization and how they relate to each other
+- In language, knowing grammar does not a good writer make.
+- Likewise, you may know gg and still create hideous graphics that are hard to interpret
+- To make good graphics you must know how to choose:
+    - The appropriate geom, scale, and mapping
+    - An adequate statistical transformation
+    - Add annotations that clarify and simplify
+    - Make it look nice to the eye
 
