@@ -547,6 +547,10 @@ myplot4
 A nicer example
 ===============
 
+```{r}
+opts_chunk$set(fig.width = 8)
+```
+
 ## Data
 
 ```{r, results='asis'}
@@ -570,7 +574,7 @@ gmplot <- ggplot(
 
 ## Base plot
 
-```{r, fig.width=8}
+```{r}
 gmplot
 ```
 
@@ -595,7 +599,7 @@ gmplot <- gmplot +
 
 ## Modifying scales and appearance
 
-```{r, fig.width=8}
+```{r}
 gmplot
 ```
 
@@ -614,26 +618,26 @@ gmplot <- gmplot +
 
 ## Adding a layer
 
-```{r, fig.width=8}
+```{r}
 gmplot
 ```
 
 ## Text labels
 
-```{r echo=TRUE, fig.width=8}
+```{r echo=TRUE}
 gmplot + geom_text(aes(label = country))
 ```
 
 ## Text labels - ggrepel
 
-```{r echo=TRUE, fig.width=8}
+```{r echo=TRUE}
 library(ggrepel)
 gmplot +  geom_label_repel(aes(label = country))
 ```
 
 ## Text labels - ggrepel
 
-```{r echo=TRUE, fig.width=8}
+```{r echo=TRUE}
 gmplot +  geom_label_repel(
     data = subset(gapminder, year == 2007 & pop > 100e6), 
     aes(label = country))
@@ -648,6 +652,251 @@ gmplotly <- ggplotly(gmplot, tooltip = c("text", "size", "x", "y"))
 
 ## Interactivity
 
-```{r, fig.width=8}
+```{r}
 gmplotly
 ```
+
+
+Data wrangling
+==============
+
+```{r}
+opts_chunk$set(echo = TRUE)
+```
+
+## Intro
+
+- For any visualization or analysis task, you need your data in a certain shape
+- Most of the time, your data is not how you need it
+- R has some great tools to reshape your data
+    - The data.table package
+    - The dplyr and tidyr packages
+    
+## Different approaches    
+    
+```{r, echo=FALSE, results='as.is'}
+data.frame(
+  Approach = c("Base R", "data.table", "dplyr + tidyr"),
+  Syntax = c("Cumbersome", "Nice", "Nicer"),
+  Speed = c("Meh", "Very fast", "Fast"),
+  Use_in_functions = c("Straightforward", "Doable", "Tricky"),
+  Use_with_databases = c("No", "No", "Yes")
+) %>% kable()
+```
+
+## The *data.table* package
+
+- Created by Matt Dowle for high performance data wrangling in R
+- Aggregate large data and perform ordered joins blazingly fast
+- Add/modify/delete columns by group using no copies at all 
+- Natural and flexible syntax that: faster development compared to base R 
+
+```{r}
+library(data.table)
+options(datatable.print.topn = 3) 
+# display only first and last 3 rows of data when printing
+```
+
+## Creating *data.table* objects
+
+- Create an object from scratch with the `data.table` function
+- Convert a data frame to a data table with the `as.data.table` function
+- Import a data table from a text file using `fread`
+
+```{r}
+library(hflights)
+hflights_dt <- data.table(hflights)
+```
+
+- The `data.table` class inherits from `data.frame` (use your data tables as data frames)
+
+```{r}
+is.data.frame(hflights_dt)
+```
+
+## Syntax
+
+Operate with the data table by specifying `DT[i, j, by]`, where 
+
+- `i` selects rows (the `WHERE` clause)
+- `j` selects columns (the `SELECT` clause)
+    - alternatively, using the `:=` operator updates the table by reference (`UPDATE` clause)
+- `by` defines subsets for operations in `j` (the `GROUP BY` clause)
+    - alternatively, `keyby` groups and orders
+
+## Subsetting
+
+Select rows by index and columns by list of names: 
+
+```{r echo=TRUE}
+hflights_dt[3:5, .(UniqueCarrier, Origin, Dest)]
+```
+
+## Subsetting
+
+Pick columns by index or character vector using `with = FALSE`:
+
+```{r}
+hflights_dt[3:5, c(7,14,15), with = FALSE]
+```
+
+## Subsetting
+
+Select rows by condition:
+
+```{r}
+hflights_dt[Dest == "BPT", .(UniqueCarrier, Origin, Dest)]
+```
+
+## Performance comparison
+
+Data frame:
+
+```{r}
+system.time(hflights[hflights $ Dest == "BPT",])
+```
+
+Data table:
+
+```{r}
+system.time(hflights_dt[Dest == "BPT"])
+```
+
+## Create new column
+
+- New column with year, month, and day of flight in a single variable
+- The `paste` function lets you concatenate strings.
+
+```{r}
+(hf_sub <- hflights_dt[3:5, .(
+  UniqueCarrier, 
+  Origin, 
+  Dest, 
+  date = paste(Year, Month, DayofMonth, sep = "-"))])
+```
+
+## Sorting
+
+Set a *key* using `setkey` or `setkeyv` for sorting:
+
+```{r}
+setkey(hf_sub, date)
+hf_sub
+```
+
+## Assign by reference
+
+- Use the `:=` function in `j` instead of `.`
+- This modifies the object permanently (creates no copies)
+
+```{r, results='hide'}
+hflights_dt[, `:=`(Origin = tolower(Origin))]
+```
+
+```{r}
+hflights_dt[3:5, .(UniqueCarrier, Origin, Dest)]
+```
+
+## Summarizing
+
+Summarize data for the entire table:
+
+```{r}
+hflights_dt[, .(                         
+  dep_delay = mean(DepDelay, na.rm = TRUE),
+  arr_delay = mean(ArrDelay, na.rm = TRUE)
+)]
+```
+
+## Summarizing
+
+Summarize by group:
+
+```{r}
+hflights_dt[, .(                    
+  dep_delay = mean(DepDelay, na.rm = TRUE),  
+  arr_delay = mean(ArrDelay, na.rm = TRUE)
+), keyby = .(Origin)]
+```
+
+## Keyword .N
+
+- Keywords `.N` and `.SD` are very useful when operating by groups 
+- `.N` is the number of observations in each by-group, used to perform frequency counts
+- Example: use `.N` to calculate percentage of cancelled flights by airport, rounded:
+
+```{r}
+hflights_dt[, .(.N, pct_cancelled = round(100*sum(Cancelled)/.N, 2)), by = Origin]
+```
+
+## Keyword .SD
+
+- `.SD` is a shorthand for the subset of data corresponding to the by-group
+- Example: R-squared of fitting a linear regression between arrival and departure delays by airport of origin:
+
+```{r}
+rsq <- function(x){
+  lm(ArrDelay ~ DepDelay, data = x) %>% # run regression
+  summary() %>%  # compute statistics
+  `$`(r.squared) # extract r-squared
+}
+hflights_dt[, .(r_squared = rsq(.SD)), by = Origin]
+```
+
+## Merging data tables
+
+Create two tables:
+- Number of cancellations by month
+- Number of cancellations by month and airport of origin, only for the first half of the year:
+
+```{r}
+cancel_month <- hflights_dt[
+  , .(cancel_tot = sum(Cancelled))
+  , keyby = Month]
+cancel_orig  <- hflights_dt[
+  Month %in% 1:6
+  , .(cancel_orig = sum(Cancelled))
+  , keyby = .(Origin, Month)]
+```
+
+## Merging data tables
+
+```{r}
+merge(cancel_orig, cancel_month, by = "Month") # Merge by month
+```
+
+## Reshaping data tables
+
+```{r}
+last_month <- 3
+(fdur <- hflights_dt %>% .[
+  AirTime > 0 & Month %in% 1:last_month
+  , .(total_airtime = round(sum(AirTime)))
+  , keyby = .(Month, TailNum)])
+```
+
+## Casting
+
+Spread a column into many columns:
+
+```{r}
+(fdur_cast <- fdur %>% dcast.data.table(
+  TailNum ~ month.name[Month], # row ids ~ column ids
+  value.var = "total_airtime", # vars to spread
+  fill = 0)) # missing values take this value
+```
+
+
+## Melting
+
+Collapse many columns into one:
+
+```{r}
+fdur_cast %>% melt(
+  id.vars = "TailNum", # don't melt this variable
+  variable.name = "Month", # put the column names here
+  value.name = "Airtime") # put the values here
+```
+
+
+
