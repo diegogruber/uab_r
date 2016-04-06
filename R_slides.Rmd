@@ -1245,3 +1245,19 @@ Use the following functions from the `haven` package:
 - `read_sas`
 - `read_spss`
 - `read_dta`
+
+Keep learning
+=============
+
+## Go deeper
+
+- Interactive lessons **inside R** with [the Swirl package](http://swirlstats.com)
+- Hadley Wickham [books](http://hadley.nz)
+    - R for Data Science
+    - ggplot2
+    - Advanced R
+    - R packages
+- The [Datacamp](https://www.datacamp.com) online courses (esp. data.table)
+- [R-bloggers](http://www.r-bloggers.com) to keep up with developments in the R community
+
+
