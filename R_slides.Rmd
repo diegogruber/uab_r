@@ -155,7 +155,7 @@ To generate the HTML file, open the .Rmd file in RStudio and press the *Knit HTM
 To update the repository when there is a new commit type `git pull` in the command line or press the *pull* button in RStudio.
 
 Data Visualization
-=====================
+==================
 
 ## Why visualize
 
@@ -398,7 +398,7 @@ Statistical transformation: linear regression
 
 
 Implementation in ggplot2
-=============================
+=========================
 
 ## Introduction
 
@@ -684,6 +684,8 @@ data.frame(
 ) %>% kable()
 ```
 
+We'll focus on data.table, but dplyr is also worth checking out.
+
 ## The *data.table* package
 
 - Created by Matt Dowle for high performance data wrangling in R
@@ -885,7 +887,6 @@ Spread a column into many columns:
   value.var = "total_airtime", # vars to spread
   fill = 0)) # missing values take this value
 ```
-
 
 ## Melting
 
