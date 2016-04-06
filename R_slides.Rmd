@@ -900,4 +900,251 @@ fdur_cast %>% melt(
 ```
 
 
+Programming
+===========
 
+## Control structures
+
+- So far our code was *sequential*
+- But many applications require more cmplex execution flows:
+    - conditional structures (*if* this *then* that) 
+    - loops
+    - functions
+
+## Conditionals
+
+Execute code only if some logical condition holds (and do something else if it doesn't).
+
+```{r, eval=FALSE}
+if (condition) { 
+  code to execute if condition holds
+} else {
+  code to execute if condition does not hold
+}
+```
+
+The condition must give a `TRUE` or `FALSE` value.
+
+## `for` and `while` loops
+
+A `for` loop runs expressions a fixed number of times.
+
+```{r, eval=FALSE}
+for (symbol in sequence) { 
+    expressions 
+} 
+```
+
+A `while` loop runs expressions until a condition is met:
+
+```{r, eval=FALSE}
+while (condition) { 
+  expression
+  update(condition)  
+} 
+```
+
+Loops in R tend to be inefficient. Whenever possible, *vectorize* your operations!
+
+## The *apply* family of functions
+
+`apply` functions are an alternative to loops. Instead of this
+
+```{r}
+a1 <- list()
+length(a1) <- ncol(mtcars)
+names(a1) <- names(mtcars)
+for(i in 1:ncol(mtcars)) {
+  a1[i] <- mean(mtcars[[i]])
+}
+```
+
+You can do this
+
+```{r}
+a2 <- lapply(mtcars, mean)
+```
+
+Similar functions: apply, sapply, tapply, vapply, ...
+
+## Parallel computing
+
+- Base R only takes advantage of a fraction of your computer's brainpower
+- Modern computers have multiple-core CPUs but R only uses one of them 
+- Unless you use parallel computing
+- Sequential operations cannot be parallelized:
+    - *Sequential operations:* If operation `B` depends on the result of operation `A` 
+    - *Parallel operations:* If `B` is independent from the result of `A`
+
+## Example: Matrix multiplication (sequential)
+
+For example, take matrix multiplication repeated a number of times: 
+
+```{r eval=FALSE}
+
+# build matrices
+m1 = 2^10;
+m2 = 2^10;
+n  = 2^10;
+z1 <- runif(m1*n); dim(z1) <- c(m1,n);
+z2 <- runif(m2*n); dim(z2) <- c(m2,n);
+
+# sequential execution of matrix mult
+nopar <- list()
+times <- 20
+length(nopar) <- times
+system.time( for( i in 1:times ){ nopar[[i]] <- z1 %*% t(z2) })
+```
+
+## Example: Matrix multiplication (parallel)
+
+Several R libraries implement parallel computing in different ways, we'll use `doParallel`
+
+```{r eval=FALSE}
+library(doParallel)
+# start cluster
+ncores <- detectCores() - 1 # leave 1 core free
+registerDoParallel(ncores)
+# parallel execution of matrix mult
+system.time( par <- foreach( i = 1:times ) %dopar% { z1 %*% t(z2) } )
+# are results the same?
+identical(par, nopar)
+```
+
+Gains will be larger as the initial fixed cost of distributing objects to all cores become smaller relative to the task. Be careful with memory!
+
+## Learn more
+
+- The vignette for the `foreach` package is probably the best place to start. 
+- The vignette for `doParallel` is good to learn about CPU clusters in R, but provides few examples - The vignette for `parallel` has many more applications but may be too much for beginners. 
+
+```{r, eval=FALSE}
+vignette("foreach")
+vignette("gettingstartedParallel", package="doParallel")
+vignette("parallel",package="parallel")
+```
+
+## Writing Functions
+
+```{r eval=FALSE}
+myfunc <- function(arg1, arg2 = default2, ...){
+  R instructions here
+  return(value) 
+}
+```
+
+- Function names must be a single word of characters and digits (first character must be a letter)
+- Function arguments are passed on to the function body
+- Optionally define default values
+- Use `...` to pass additional arguments to a function within your function. 
+- Brackets `{}` should enclose the function body 
+- The function body is a set of R instructions to be run on each function call
+- `return` indicates the value or object to be returned by the function
+
+## Example:
+
+```{r eval = FALSE}
+
+sumofpowers <- function(x = 1:10, power = 2, ...){
+  out <- sum(x^power, ...)
+  return(out)
+}
+
+sumofpowers(c(1, 2, 3), 3) # simple call
+
+sumofpowers() # call with default values
+
+sumofpowers(c(1, 2, NA, 3)) # call with missing value
+
+# reordering arguments and passing arguments on to another function
+sumofpowers(x = c(1, 2, NA, 3), power3 = 3, power2 = 4, na.rm = TRUE) 
+
+```
+
+## Non-standard evaluation
+
+- NSE lets a function take unquoted arguments 
+- Easier to work with the function interactively, harder to write functions 
+- Example: `subset`, no need to write `mtcars$mpg` or `"mpg"`:
+
+```{r}
+subset(mtcars, hp > 250)
+```
+
+## NSE fail
+
+Using subset within a function is tricky:
+
+```{r error=TRUE}
+subsetmtcars <- function(condition){
+  subset(mtcars, condition)
+}
+subsetmtcars(hp > 250)
+```
+
+## NSE with the  `subsitute` and `eval` functions
+
+- `subset` tells the function to wait before evaluating the object 
+- `eval` evaluates in the moment when the funciton can correctly interpret its value.
+
+```{r}
+subsetmtcars <- function(condition){
+  condition <- substitute(condition)
+  subset(mtcars, eval(condition))
+}
+subsetmtcars(hp > 250)
+```
+
+Important when programming functions with data.table!
+
+## Sourcing scripts
+
+Call a script with the function `source`:
+
+```{r, eval=FALSE}
+source("importFunctions.R")
+```
+
+Specify directories with `file.path`:
+
+```{r, eval=FALSE}
+source(file.path("home", "code", "importFunctions.R"))
+```
+
+You can also specify URLs:
+
+```{r, eval=FALSE}
+source("http://epidemos.es/epi2/libdemof.R")
+```
+
+Sourcing scripts is equivalent to opening the file and executing it.
+
+## Debugging
+
+- The function `debug` lets you single step through R functions
+- RStudio includes a visual debugger including 
+    - editor breakpoints
+    - code and local environment visualization 
+    - deep integration with traditional R debugging tools, such as `browser` and `debug`.
+    - For details see [Debugging with RStudio](http://support.rstudio.com/hc/en-us/articles/200713843-Debugging-with-RStudio).
+
+## Programming style guide
+
+Good style is essential. Use common sense and **be consistent!**
+
+- File names, variable names, function names should be meaningful.
+- Use verbs for functions, nouns for function arguments
+- Use underscores to separate words
+- Line length: maximum 80 characters.
+- Use indentation (spaces, no tabs)
+- Place spaces 
+    - around all binary operators (=, +, -, <-, etc.)
+    - not before a comma, but always after a comma
+    - before left parenthesis, except in a function call
+    
+## Programming style guide (cont.)
+    
+- Curly braces: first on same line, last on own line.
+- Assignment: use `<-`, not `=`, except for function arguments
+- Comments, comments, comments
+- Raise errors in functions using `stop` or `stopifnot`.
