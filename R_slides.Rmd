@@ -1148,3 +1148,100 @@ Good style is essential. Use common sense and **be consistent!**
 - Assignment: use `<-`, not `=`, except for function arguments
 - Comments, comments, comments
 - Raise errors in functions using `stop` or `stopifnot`.
+
+Importing data
+==============
+
+```{r echo=FALSE}
+opts_chunk$set(eval = FALSE)
+```
+
+## Delimited text files
+
+- columns are explicitly delimited --- tipically with ";" or "," or a tabulator (coded by `"\t"`). 
+- The standard file is CSV (comma-separated values)
+- The `read.table` function can import most of the delimited files you'll find
+- Example: the [Demographic data of censal sections in Barcelona](http://opendata.bcn.cat/opendata/en/catalog/SOCIETAT_I_BENESTAR/taulamapscensal)
+
+```{r}
+### Import from url (can also import from downloaded file)
+bcn_url <- "http://bit.ly/1MI6SaP" # I've shortened this link
+censusBCN <- read.table(bcn_url, header=TRUE, sep=";")
+```
+
+## Using the *readr* package to import tabular data
+
+Compared to the base import functions, the functions in this package: 
+
+- have a consistent naming scheme for the parameters,
+- are much faster for larger files, 
+- do not convert strings into factors and 
+- display a helpful progress bar if loading is going to take a while.
+
+Download the Ageing Population file from the UK Open Data using the `read_delim` function (we could also use `read_csv`). 
+
+```{r}
+# Import
+library(readr)
+ap_url <- "http://opendata.s3.amazonaws.com/aging-population-2008.csv"
+agingPopulation <- read_delim(ap_url, delim = ",")
+```
+
+## A speedy alternative: *fread*
+
+The powerful `data.table` package also comes with a function that is much faster but slightly less flexible than `read.table`:
+
+```{r}
+library(data.table)
+censusBCN <- fread(bcn_url)
+agingPopulation <- fread(ap_url)
+```
+
+Much easier and way faster! Tables imported with `fread` are converted by default into *data.tables*
+
+## Fixed-width files
+
+- These files have no delimiters between columns, you'll need a description of the width of each column.
+- Example from INE: [Survey on Human Resources in Science and Technology 2009](http://ine.es/en/prodyser/microdatos_en.htm). 
+- Download both the [raw data](ftp://www.ine.es/temas/recurciencia/micro_recurciencia.zip) and [its metadata](ftp://www.ine.es/temas/recurciencia/disreg_recurciencia.xls)
+- The standard R function to import this type of file is `read.fwf`
+- You can use `read_fwf` from the readr package instead.
+
+```{r}
+## Metadata for the selected columns
+rrhh_location <- file.path("~", "Downloads", "RRHH09.txt")
+# RRHH09Widths <- c(6,2,4,2,4,1,4,4,4,1,1,2,2,2,2,2,1,1,...) # get from excel
+fwfDataFrame <- read_fwf(
+  rrhh_location, 
+  col_positions = fwf_widths(RRHH09Widths)) %>% 
+  as.data.table
+```
+
+## Importing Excel files
+
+- Generally preferable: export your Excel files to text 
+- If you want to import directly, the two packages that have worked best for me are readxl and gdata
+
+```{r}
+library(gdata)
+# path to sample Excel file
+xlsx <- file.path(path.package('gdata'), 'xls', 'ExampleExcelFile.xlsx')
+sheetCount(xlsx) # check how many sheets it has
+sheetNames(xlsx) # get their names
+read.xls(xlsx, sheet = 2) # import one sheet
+```
+
+readxl has no external dependencies, it's easy to install and use on all OSs:
+
+```{r}
+library(readxl)
+read_excel(path = xlsx, sheet = 2) 
+```
+
+## Importing SAS, Stata, and SPSS files
+
+Use the following functions from the `haven` package:
+
+- `read_sas`
+- `read_spss`
+- `read_dta`
