@@ -164,7 +164,7 @@ Data Visualization
     - Gaps
     - Outliers
 - We're well equipped for visual analysis
-    - High bandwith input device: our eyes
+    - High bandwidth input device: our eyes
     - Powerful CPU with sophisticated image-recognition algorithms: our brains.
 - Information => Interpretation => Action
 
@@ -334,8 +334,8 @@ $$f(x + a) = f(x) + a \qquad \text{y} \qquad f(b \cdot x) = b \cdot f(x)$$
 
 ## Coordinate System
 
-- Coordinate systems change the appearance of a grahpic 
-- We only consider cartesian plane
+- Coordinate systems change the appearance of a graphic 
+- We only consider Cartesian plane
 - Other systems:
   - Geodesic projections are important when working with cartographic data
   - Polar coordinates
@@ -369,7 +369,7 @@ basic_plot
 
 ## Faceting
 
-Add some complecity partitioning by variable D:
+Add some complexity partitioning by variable D:
 
 ```{r fig.width=7}
 basic_plot + facet_grid(~D)
@@ -407,7 +407,7 @@ Implementation in ggplot2
     - Avoid redundant code
     - Good defaults for each element
     - Ample selection of geoms, stats, scales, etc.
-- Success has led to clones in other programming languages (ej. ggplot en Python)
+- Success has led to clones in other programming languages (e.g.. ggplot en Python)
 - Reference: [ggplot2 documentation](http://docs.ggplot2.org/current/)
 
 ## ggplot2 - Quick start
@@ -418,7 +418,7 @@ Implementation in ggplot2
     - data (`data = ...`)
     - geometry (`geom = ...`) and its position (`position = ...`)
     - a mapping from variables to aesthetic elements `mapping = aes(...)`
-    - a statistial transformation (`stat = ...`)
+    - a statistical transformation (`stat = ...`)
     - other options through `params = list(...)`
 - ggplot2 automatically selects a scale based on variable type and range
 - Let's see how we produced the previous plot...
@@ -472,11 +472,11 @@ myplot2
 
 ## ggplot2 - Shortcuts
 
-- Funciones `geom...` y `stat...` para indicar directamente la geometría  o la transformación estadística deseada.
-- Cada función tiene una serie de defaults cuidadosamente seleccionados.
-- Por ejemplo, cada `geom` tiene una transformación estadística asociada.
-- A la inversa, cada `stat` tiene una geometría por defecto.
-- Cada función tiene sus parámetros.
+- Functions `geom...` and `stat...` indicate directly the desired geom and statistical transformation
+- Each of these function has carefully selected defaults
+    - Each `geom` has an associated stat by default
+    - Each `stat` is associated to a geom by default
+- Each shortcut function has its own parameters
 
 ```{r echo=TRUE}
 myplot3 <- ggplot(data = mydata, mapping = aes(x = A, y = C)) + 
@@ -906,7 +906,7 @@ Programming
 ## Control structures
 
 - So far our code was *sequential*
-- But many applications require more cmplex execution flows:
+- But many applications require more complex execution flows:
     - conditional structures (*if* this *then* that) 
     - loops
     - functions
@@ -983,9 +983,9 @@ For example, take matrix multiplication repeated a number of times:
 ```{r eval=FALSE}
 
 # build matrices
-m1 = 2^10;
-m2 = 2^10;
-n  = 2^10;
+m1 <- 2^10;
+m2 <- 2^10;
+n  <- 2^10;
 z1 <- runif(m1*n); dim(z1) <- c(m1,n);
 z2 <- runif(m2*n); dim(z2) <- c(m2,n);
 
@@ -1045,19 +1045,19 @@ myfunc <- function(arg1, arg2 = default2, ...){
 
 ```{r eval = FALSE}
 
-sumofpowers <- function(x = 1:10, power = 2, ...){
+sumofpowers <- function(x, power = 2, ...){
   out <- sum(x^power, ...)
   return(out)
 }
 
 sumofpowers(c(1, 2, 3), 3) # simple call
 
-sumofpowers() # call with default values
+sumofpowers(1:10) # call with default values
 
 sumofpowers(c(1, 2, NA, 3)) # call with missing value
 
 # reordering arguments and passing arguments on to another function
-sumofpowers(x = c(1, 2, NA, 3), power3 = 3, power2 = 4, na.rm = TRUE) 
+sumofpowers(power = 3, x = c(1, 2, NA, 3), na.rm = TRUE) 
 
 ```
 
@@ -1085,7 +1085,7 @@ subsetmtcars(hp > 250)
 ## NSE with the  `subsitute` and `eval` functions
 
 - `subset` tells the function to wait before evaluating the object 
-- `eval` evaluates in the moment when the funciton can correctly interpret its value.
+- `eval` evaluates in the moment when the function can correctly interpret its value.
 
 ```{r}
 subsetmtcars <- function(condition){
@@ -1158,7 +1158,7 @@ opts_chunk$set(eval = FALSE)
 
 ## Delimited text files
 
-- columns are explicitly delimited --- tipically with ";" or "," or a tabulator (coded by `"\t"`). 
+- columns are explicitly delimited --- typically with ";" or "," or a tabulator (coded by `"\t"`). 
 - The standard file is CSV (comma-separated values)
 - The `read.table` function can import most of the delimited files you'll find
 - Example: the [Demographic data of censal sections in Barcelona](http://opendata.bcn.cat/opendata/en/catalog/SOCIETAT_I_BENESTAR/taulamapscensal)
@@ -1213,8 +1213,7 @@ rrhh_location <- file.path("~", "Downloads", "RRHH09.txt")
 # RRHH09Widths <- c(6,2,4,2,4,1,4,4,4,1,1,2,2,2,2,2,1,1,...) # get from excel
 fwfDataFrame <- read_fwf(
   rrhh_location, 
-  col_positions = fwf_widths(RRHH09Widths)) %>% 
-  as.data.table
+  col_positions = fwf_widths(RRHH09Widths)) 
 ```
 
 ## Importing Excel files
@@ -1231,7 +1230,7 @@ sheetNames(xlsx) # get their names
 read.xls(xlsx, sheet = 2) # import one sheet
 ```
 
-readxl has no external dependencies, it's easy to install and use on all OSs:
+readxl has no external dependencies, it's easy to install and use on all OS's:
 
 ```{r}
 library(readxl)
