@@ -543,6 +543,7 @@ myplot4
     - An adequate statistical transformation
     - Add annotations that clarify and simplify
     - Make it look nice to the eye
+- References: [Nathan Yau](http://flowingdata.com/books/) 
 
 A nicer example
 ===============
@@ -1132,22 +1133,24 @@ Sourcing scripts is equivalent to opening the file and executing it.
 
 Good style is essential. Use common sense and **be consistent!**
 
-- File names, variable names, function names should be meaningful.
-- Use verbs for functions, nouns for function arguments
-- Use underscores to separate words
-- Line length: maximum 80 characters.
+My suggestions in order of importance:
+
+- Comments, comments, comments
+- Don't repeat yourself! Instead of copy-paste, write functions
+- File names, variable names, function names should be meaningful
+    - Use verbs for functions, nouns for function arguments
+    - Use underscores to separate words
 - Use indentation (spaces, no tabs)
+- Line length: max 80 characters
+    
+## Programming style guide (cont.)
+    
 - Place spaces 
     - around all binary operators (=, +, -, <-, etc.)
     - not before a comma, but always after a comma
     - before left parenthesis, except in a function call
-    
-## Programming style guide (cont.)
-    
-- Curly braces: first on same line, last on own line.
 - Assignment: use `<-`, not `=`, except for function arguments
-- Comments, comments, comments
-- Raise errors in functions using `stop` or `stopifnot`.
+- Curly braces: first on same line, last on own line
 
 Importing data
 ==============
